@@ -9,13 +9,11 @@ class Database:
 class User:
     def __init__(self, username, password, password_confirm):
         self.username = username
-        if password == password_confirm:
-            self.password = password
-        else:
+        self.password = password
+        if password != password_confirm:
             raise ValueError("Пароли не совпадают")
 
-    @staticmethod
-    def validate_password(password):
+    def validate_password(self, password):
         if len(password) < 8 or len(password) > 14:
             return False
 
@@ -26,10 +24,11 @@ class User:
         return has_digit and has_uppercase and has_lowercase
 
     def set_password(self, password):
-        if self.validate_password(password):
+        try:
+            self.validate_password(password)
             self.password = password
-        else:
-            raise ValueError("Пароль не соответствует требованиям")
+        except ValueError as e:
+            raise ValueError(f"Ошибка валидации пароля: {str(e)}")
 
 
 if __name__ == '__main__':
@@ -43,27 +42,22 @@ if __name__ == '__main__':
         elif choice == '2':
             username = input("Enter your login: ")
 
-            password = input("Enter your password: ")
-            password_confirm = input("Repeat your password: ")
+            print("\nТребования к паролю:")
+            print("1. Минимальная длина: 8 символов")
+            print("2. Максимальная длина: 14 символов")
+            print("3. Содержать хотя бы одну цифру")
+            print("4. Содержать хотя бы одну заглавную букву")
+            print("5. Содержать хотя бы одну строчную буклу")
+
+            password = input("Введите ваш пароль: ")
+            password_confirm = input("Повторите пароль: ")
 
             try:
                 user = User(username, password, password_confirm)
-
-                print("\nТребования к паролю:")
-                print("1. Минимальная длина: 8 символов")
-                print("2. Максимальная длина: 14 символов")
-                print("3. Содержать хотя бы одну цифру")
-                print("4. Содержать хотя бы одну заглавную букву")
-                print("5. Содержать хотя бы одну строчную букву")
-
-                if user.validate_password(password):
-                    database.add_user(user.username, user.password)
-                    print(f"Пользователь {username} успешно добавлен.")
-                    break
-                else:
-                    print("Пароль не соответствует требованиям. Попробуйте еще раз.")
+                database.add_user(user.username, user.password)
+                print(f"Пользователь {username} успешно добавлен.")
+                break
             except ValueError as e:
                 print(str(e))
         else:
             print("Неверный выбор. Попробуйте еще раз.")
-print(database.data)
