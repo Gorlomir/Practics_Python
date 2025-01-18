@@ -38,7 +38,16 @@ if __name__ == '__main__':
 
         if choice == '1':
             # Логика входа
-            pass
+            login = input("Enter your login: ")
+            password = input("Enter yor password: ")
+            if login in database.data:
+                if password == database.data[login]:
+                    print(f'Suacuasse login, {login}')
+                    break
+                else:
+                    print('wrong password! try again')
+            else:
+                print("Not found user")
         elif choice == '2':
             username = input("Enter your login: ")
 
