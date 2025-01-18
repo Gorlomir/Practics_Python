@@ -42,10 +42,10 @@ if __name__ == '__main__':
             password = input("Enter yor password: ")
             if login in database.data:
                 if password == database.data[login]:
-                    print(f'Suacuasse login, {login}')
+                    print(f'Sausage login, {login}')
                     break
                 else:
-                    print('wrong password! try again')
+                    print('wrong burger! try again')
             else:
                 print("Not found user")
         elif choice == '2':
