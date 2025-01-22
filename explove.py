@@ -38,7 +38,7 @@ class TextEditor:
         file_path = filedialog.askopenfilename(title="Выберите файл",
                                                filetypes=[("Text files", "*.txt")])
         if file_path:
-            with open(file_path, 'r') as file:
+            with open(file_path, 'r', encoding='utf-8') as file:
                 self.text_area.delete(1.0, tk.END)
                 self.text_area.insert(tk.END, file.read())
 
@@ -47,7 +47,7 @@ class TextEditor:
                                                  filetypes=[("Text files", "*.txt")],
                                                  title="Сохранить как")
         if file_path:
-            with open(file_path, 'w') as file:
+            with open(file_path, 'w', encoding='utf-8') as file:
                 file.write(self.text_area.get(1.0, tk.END))
 
     def show_help(self):
